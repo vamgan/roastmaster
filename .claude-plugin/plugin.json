@@ -1,0 +1,9 @@
+{
+    "name": "roastmaster",
+    "version": "1.0.0",
+    "description": "A plugin that roasts your code with Gen Z humor",
+    "author": {
+        "name": "RoastMaster Team"
+    },
+    "license": "MIT"
+}

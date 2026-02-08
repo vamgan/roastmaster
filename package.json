@@ -1,0 +1,33 @@
+{
+  "name": "roastmaster",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "roastmaster": "./dist/index.js",
+    "roastmaster-server": "./dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "server": "node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.74.0",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^25.2.2",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
+    "dotenv": "^17.2.4",
+    "fs-extra": "^11.3.3",
+    "openai": "^6.18.0",
+    "ora": "^9.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.6"
+  }
+}
