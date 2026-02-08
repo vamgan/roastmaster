@@ -48,17 +48,6 @@ fix src/broken.ts
 roast src/index.ts --persona hype
 ```
 
-## 🤖 Usage as a Claude Code Plugin
-
-To install RoastMaster as a plugin in `claude` CLI:
-
-1. Create a `plugins` directory (if you haven't already).
-2. Clone this repo into it.
-3. Run `claude --plugin-dir ./roastmaster`
-
-Or, if you are distributing it:
-1. Publish to npm.
-2. Users can install via `claude plugin add roastmaster` (once the marketplace supports it) or simply point to the local directory.
 
 ### Configuration via `.mcp.json`
 The project includes a `.mcp.json` file that automatically registers the MCP server when loaded as a plugin. Ensure your `OPENAI_API_KEY` is set in your environment.
