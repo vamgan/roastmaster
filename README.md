@@ -1,4 +1,5 @@
-# 🔥 RoastMaster CLI
+# 🔥 RoastMaster
+
 
 > "The only code reviewer that hates you."
 
