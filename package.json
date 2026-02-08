@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.985.0",
     "@modelcontextprotocol/sdk": "^1.26.0",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^25.2.2",

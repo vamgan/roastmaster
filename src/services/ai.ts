@@ -1,16 +1,18 @@
 
 import OpenAI from 'openai';
 import Anthropic from '@anthropic-ai/sdk';
+import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import dotenv from 'dotenv';
 import { PERSONAS, PersonaType } from './persona';
 
 dotenv.config();
 
-type Provider = 'openai' | 'anthropic';
+type Provider = 'openai' | 'anthropic' | 'bedrock';
 
 export class LLMService {
   private openai?: OpenAI;
   private anthropic?: Anthropic;
+  private bedrock?: BedrockRuntimeClient;
   private provider: Provider = 'openai';
 
   constructor() {
@@ -18,7 +20,7 @@ export class LLMService {
   }
 
   private init() {
-    if (this.openai || this.anthropic) return;
+    if (this.openai || this.anthropic || this.bedrock) return;
 
     if (process.env.ANTHROPIC_API_KEY) {
       this.anthropic = new Anthropic({
@@ -30,8 +32,15 @@ export class LLMService {
         apiKey: process.env.OPENAI_API_KEY,
       });
       this.provider = 'openai';
+    } else if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+        // AWS SDK will automatically pick up credentials from env or shared config if not explicitly passed,
+        // but checking env vars helps us decide to use it as the provider.
+        this.bedrock = new BedrockRuntimeClient({ region: process.env.AWS_REGION || "us-east-1" });
+        this.provider = 'bedrock';
     } else {
-        throw new Error('❌ Missing API Key. Set OPENAI_API_KEY or ANTHROPIC_API_KEY.');
+         // Fallback: Check if Bedrock works without explicit keys (e.g. IAM roles)
+         // For now, let's require at least one key to be present to avoid confusing errors.
+        throw new Error('❌ Missing API Key. Set OPENAI_API_KEY, ANTHROPIC_API_KEY, or AWS Credentials.');
     }
   }
 
@@ -51,7 +60,7 @@ export class LLMService {
         });
         // @ts-ignore
         return response.content[0]?.text || 'Bro, Claude ghosted us.';
-      } else if (this.openai) {
+      } else if (this.provider === 'openai' && this.openai) {
         const response = await this.openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [
@@ -60,6 +69,8 @@ export class LLMService {
             ],
         });
         return response.choices[0]?.message?.content || 'Bro, OpenAI ghosted us.';
+      } else if (this.provider === 'bedrock' && this.bedrock) {
+          return this.callBedrock(systemPrompt, userPrompt);
       }
       return 'No provider initialized.';
     } catch (error) {
@@ -86,7 +97,7 @@ export class LLMService {
             });
             // @ts-ignore
             content = response.content[0]?.text || '';
-        } else if (this.openai) {
+        } else if (this.provider === 'openai' && this.openai) {
             const response = await this.openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [
@@ -95,6 +106,8 @@ export class LLMService {
             ],
             });
             content = response.choices[0]?.message?.content || '';
+        } else if (this.provider === 'bedrock' && this.bedrock) {
+            content = await this.callBedrock(systemPrompt, userPrompt);
         }
 
         // Extract code block
@@ -104,5 +117,34 @@ export class LLMService {
           // @ts-ignore
         throw new Error(`AI Error: ${error.message}`);
       }
+    }
+
+    private async callBedrock(system: string, user: string): Promise<string> {
+        if (!this.bedrock) throw new Error("Bedrock not initialized");
+
+        // Format for Claude 3 / 3.5 / 4.5 on Bedrock
+        const payload = {
+            anthropic_version: "bedrock-2023-05-31",
+            max_tokens: 2048,
+            system: system,
+            messages: [
+                { role: "user", content: user }
+            ]
+        };
+
+        // Allow user to override model ID (e.g. for Claude 4.5)
+        const modelId = process.env.BEDROCK_MODEL_ID || "anthropic.claude-3-5-sonnet-20240620-v1:0";
+
+        const command = new InvokeModelCommand({
+            modelId: modelId,
+            contentType: "application/json",
+            accept: "application/json",
+            body: JSON.stringify(payload)
+        });
+
+        const response = await this.bedrock.send(command);
+        const decoded = new TextDecoder().decode(response.body);
+        const json = JSON.parse(decoded);
+        return json.content[0].text;
     }
 }
