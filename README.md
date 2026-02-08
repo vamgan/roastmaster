@@ -117,5 +117,17 @@ Add the following to your Claude Desktop config file:
 
 If you don't want to clone, you can use `npx` directly (once published to npm) or point to the repo if configured:
 
-*(Coming soon: direct `npx` execution)*
+
+### Using as a Claude Plugin (Claude Code)
+
+RoastMaster is designed to work as a native Claude Code plugin.
+It provides the following commands:
+- `/roast`: Reviews your code with ruthlessness.
+- `/fix`: Attempts to fix your code (with attitude).
+
+To install (once supported via direct git URL or marketplace):
+*(Follow standard Claude Code plugin installation instructions)*
+
+For now, you can clone this repo and point your tool configuration to it.
+
 T. No cap.
