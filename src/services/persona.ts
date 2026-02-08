@@ -1,4 +1,3 @@
-
 export type PersonaType = 'roast' | 'hype' | 'senior';
 
 interface Persona {

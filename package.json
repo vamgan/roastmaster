@@ -1,7 +1,7 @@
 {
   "name": "roastmaster",
   "version": "1.0.0",
-  "description": "",
+  "description": "The only code reviewer that hates you. CLI tool, MCP server, and Claude Code plugin.",
   "bin": {
     "roastmaster": "./dist/index.js",
     "roastmaster-server": "./dist/server.js"
@@ -10,25 +10,51 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "server": "node dist/server.js",
+    "lint": "eslint 'src/**/*.{js,ts}'",
+    "format": "prettier --write 'src/**/*.{js,ts}'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vamgan/roastmaster.git"
+  },
+  "keywords": [
+    "cli",
+    "ai",
+    "roast",
+    "code-review",
+    "mcp",
+    "claude",
+    "plugin"
+  ],
+  "author": "RoastMaster Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vamgan/roastmaster/issues"
+  },
+  "homepage": "https://github.com/vamgan/roastmaster#readme",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
     "@aws-sdk/client-bedrock-runtime": "^3.985.0",
     "@modelcontextprotocol/sdk": "^1.26.0",
-    "@types/fs-extra": "^11.0.4",
-    "@types/node": "^25.2.2",
     "chalk": "^5.6.2",
     "commander": "^14.0.3",
     "dotenv": "^17.2.4",
     "fs-extra": "^11.3.3",
     "openai": "^6.18.0",
     "ora": "^9.3.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^25.2.2",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

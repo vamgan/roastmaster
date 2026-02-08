@@ -1,5 +1,9 @@
 # 🔥 RoastMaster
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/vamgan/roastmaster/actions/workflows/ci.yml/badge.svg)](https://github.com/vamgan/roastmaster/actions/workflows/ci.yml)
+
+
 
 > "The only code reviewer that hates you."
 
