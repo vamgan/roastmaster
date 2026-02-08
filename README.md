@@ -82,5 +82,40 @@ The project includes a `.mcp.json` file that automatically registers the MCP ser
 ## 🤝 Contributing
 Don't break it or I'll roast your PR.
 
-## 📄 License
-MIT. No cap.
+
+## Installation (Claude Desktop / MCP)
+
+You can use RoastMaster as a tool within Claude Desktop.
+
+### Prerequisites
+1.  [Node.js](https://nodejs.org/) (v18 or higher)
+2.  Git
+
+### Configuration
+
+Add the following to your Claude Desktop config file:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "roastmaster": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/TO/roastmaster/dist/server.js"],
+      "env": {
+        "ANTHROPIC_API_KEY": "your-key-here",
+        "BEDROCK_MODEL_ID": "optional-bedrock-model-id" 
+      }
+    }
+  }
+}
+```
+*Note: You must clone this repository and build it (`npm install && npm run build`) locally for the path to exist.*
+
+### Using via GitHub (npx)
+
+If you don't want to clone, you can use `npx` directly (once published to npm) or point to the repo if configured:
+
+*(Coming soon: direct `npx` execution)*
+T. No cap.
