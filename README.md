@@ -125,9 +125,21 @@ It provides the following commands:
 - `/roast`: Reviews your code with ruthlessness.
 - `/fix`: Attempts to fix your code (with attitude).
 
-To install (once supported via direct git URL or marketplace):
-*(Follow standard Claude Code plugin installation instructions)*
+To install in Claude Code:
 
-For now, you can clone this repo and point your tool configuration to it.
+1. Register the marketplace:
+```bash
+/plugin marketplace add vamgan/roastmaster
+```
+
+2. Install the plugin:
+```bash
+/plugin install roastmaster@roastmaster-marketplace
+```
+
+3. Verify:
+```bash
+/roast src/index.ts
+```
 
 T. No cap.
